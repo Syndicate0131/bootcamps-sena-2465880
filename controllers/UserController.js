@@ -153,18 +153,41 @@ exports.actualizarUser = async(req, res)=>{
 
 //Delete : Elimina un recurso - Delete
 exports.borrarUser = async(req, res)=>{
-    // Buscar al usuario
-    const u = await User.findByPk(req.params.id)
-    // -Borrar usuario por id
-    await User.destroy({
-    where: {
-      id: req.params.id
-    }
-  });
-    res.status(200).json(
-        {
-            "success" : true,
-            "data" : u
+    try {
+        // Consultar Datos A Eliminar
+        const u = await User.findByPk(req.params.id)
+        if (!u) {
+            res.status(422).json(
+                {
+                    "success" : false,
+                    "data" : [
+                        "Usuario no Existe"
+                    ]
+                }
+            )     
+        }else{
+        // Buscar al usuario
+        const u = await User.findByPk(req.params.id)
+        // -Borrar usuario por id
+        await User.destroy({
+        where: {
+          id: req.params.id
         }
-    )
+        });
+        res.status(200).json(
+            {
+                "success" : true,
+                "data" : u
+            }
+        )
+              }
+    } catch (error) {
+        //Errores de Servidor
+        res
+        .status(500)
+        .json({
+            "success":false,
+            "errors": "Error del Servidor"
+        })  
+    }              
 }

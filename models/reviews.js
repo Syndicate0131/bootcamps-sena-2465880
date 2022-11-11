@@ -14,11 +14,109 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Reviews.init({
-    title: DataTypes.STRING,
-    text: DataTypes.STRING,
-    rating: DataTypes.INTEGER
+    title:{       
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isAlpha: {
+          args:true,
+          msg: 'El campo Title solo acepta caracteres alfabeticos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Title no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Title'
+        },   
+
+      }
+    },
+    text:{ 
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isAlpha: {
+          args:true,
+          msg: 'El campo Text solo acepta caracteres alfabeticos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Text no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Text'
+        },   
+
+      }
+    },
+    rating:{ 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo Rating solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Rating no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Rating'
+        },   
+
+      }
+    },
+    user_id:{ 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo User Id solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo User Id no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo User Id'
+        },   
+
+      }
+    },
+    bootcamp_id:{ 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo Bootcamp Id solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Bootcamp Id no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Bootcamp Id'
+        },   
+
+      }
+    },
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Reviews',
   });
   return Reviews;

@@ -5,20 +5,20 @@ const sequelize = require('../config/seq')
 const { DataTypes , ValidationError } = require ('sequelize')
 
 // Modelo A Trabajar 
-const UserModel = require ('../models/user')
+const ReviewModel = require ('../models/reviews')
 
-// Crear el objeto Usuario 
-const User = UserModel(sequelize, DataTypes)
+// Crear el objeto Review 
+const Review = ReviewModel(sequelize, DataTypes)
 
 
 // Get: Obtener datos -  Read
-exports.traerUsers = async(req, res)=>{
+exports.traerReviews = async(req, res)=>{
     try {
-        const users = await User.findAll();
+        const reviews = await Review.findAll();
         res.status(200).json(
             {
                 "success" : true,
-                "data" : users
+                "data" : reviews
             }
         )        
     } catch (error) {
@@ -27,23 +27,23 @@ exports.traerUsers = async(req, res)=>{
         .status(500)
         .json({
             "success":false,
-            "errors": "Error del Servidor"
+            "errors": error
         })  
     }
 
 }
 
 // Obtener recurso por id
-exports.traerUsersPorId = async(req, res)=>{
+exports.traerReviewsPorId = async(req, res)=>{
     try {
-        const userId = await User.findByPk(req.params.id)
-        //Si el usuario no existe
-        if (!userId) {
+        const reviewId = await Review.findByPk(req.params.id)
+        //Si el Review no existe
+        if (!reviewId) {
             res.status(422).json(
                 {
                     "success" : false,
                     "data" : [
-                        "Usuario no Existe"
+                        "Review no Existe"
                     ]
                 }
             )     
@@ -51,7 +51,7 @@ exports.traerUsersPorId = async(req, res)=>{
         res.status(200).json(
             {
                 "success" : true,
-                "data" : userId
+                "data" : reviewId
             }
         )   
         }
@@ -67,12 +67,12 @@ exports.traerUsersPorId = async(req, res)=>{
 }
 
 // Post: Crear un nuevo recurso - Create 
-exports.crearUser = async(req, res)=>{
+exports.crearReview = async(req, res)=>{
     try {
-        const newUser = await User.create(req.body);
+        const newReview = await Review.create(req.body);
         res.status(201).json({
             "success" : true,
-            "data" : newUser
+            "data" : newReview
         })
     } catch (error) {
         if(error instanceof ValidationError){
@@ -98,27 +98,27 @@ exports.crearUser = async(req, res)=>{
 }
 
 //Put - Patch : Actualiza un recurso - Update
-exports.actualizarUser = async(req, res)=>{
+exports.actualizarReview = async(req, res)=>{
     try {
         // Consultar Datos Actualizados
-        const upUser = await User.findByPk(req.params.id)
-        if (!upUser) {
+        const upReview = await Review.findByPk(req.params.id)
+        if (!upReview) {
             res.status(422).json(
                 {
                     "success" : false,
                     "data" : [
-                        "Usuario no Existe"
+                        "Review no Existe"
                     ]
                 }
             )     
         }else{
-            // Actualizar Usuario Por Id
-            await User.update(req.body,{
+            // Actualizar Review Por Id
+            await Review.update(req.body,{
             where:{
                 id: req.params.id
                 }
             });
-            const upAct = await User.findByPk(req.params.id)
+            const upAct = await Review.findByPk(req.params.id)
         res.status(200).json(
             {
                 "success" : true,
@@ -149,45 +149,4 @@ exports.actualizarUser = async(req, res)=>{
         }
     }
 
-}
-
-//Delete : Elimina un recurso - Delete
-exports.borrarUser = async(req, res)=>{
-    try {
-        // Consultar Datos A Eliminar
-        const u = await User.findByPk(req.params.id)
-        if (!u) {
-            res.status(422).json(
-                {
-                    "success" : false,
-                    "data" : [
-                        "Usuario no Existe"
-                    ]
-                }
-            )     
-        }else{
-            // Buscar al usuario
-            const u = await User.findByPk(req.params.id)
-            // -Borrar usuario por id
-            await User.destroy({
-            where: {
-              id: req.params.id
-            }
-            });
-            res.status(200).json(
-                {
-                    "success" : true,
-                    "data" : u
-                }
-            )
-        }
-    } catch (error) {
-        //Errores de Servidor
-        res
-        .status(500)
-        .json({
-            "success":false,
-            "errors": "Error del Servidor"
-        })  
-    }              
 }

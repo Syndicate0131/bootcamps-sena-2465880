@@ -14,13 +14,136 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Courses.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    weeks: DataTypes.INTEGER,
-    enroll_cost: DataTypes.INTEGER,
-    minimum_skill: DataTypes.STRING
+
+    title: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isAlpha: {
+          args:true,
+          msg: 'El campo Title solo acepta caracteres alfabeticos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Title no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Title'
+        },   
+
+      }
+    },
+
+    description:{
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isAlpha: {
+          args:true,
+          msg: 'El campo Description solo acepta caracteres alfabeticos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Description no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Description'
+        },   
+
+      }
+    },
+
+    weeks: { 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo Weeks solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Weeks no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Weeks'
+        },   
+
+      }
+    },
+
+    enroll_cost: { 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo Enroll Cost solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Enroll Cost no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Enroll Cost'
+        },   
+
+      }
+    },
+
+    minimum_skill: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isAlpha: {
+          args:true,
+          msg: 'El campo Minimum Skill solo acepta caracteres alfabeticos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Minimum Skill no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Minimum Skill'
+        },   
+
+      }
+    },
+
+    bootcamp_id:{ 
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isNumeric: {
+          args:true,
+          msg: 'El campo Bootcamp Id solo acepta caracteres numericos'
+        },
+        notEmpty: {
+          args:true,
+          msg: 'El campo Bootcamp Id no puede estar vacio'
+        },   
+        notNull: {
+          args:true,
+          msg: 'El registro debe llevar el campo Bootcamp Id'
+        },   
+
+      }
+    },
+
   }, {
     sequelize,
+    timestamps: false,
     modelName: 'Courses',
   });
   return Courses;
